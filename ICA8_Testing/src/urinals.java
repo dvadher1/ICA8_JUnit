@@ -65,4 +65,28 @@ public class urinals {
 			throw e;
 		}
 	}
+	
+	public int calculateFreeUrinals(String currentUrinal) {
+		int freeUrinals = 0;
+		
+		char[] ch = currentUrinal.toCharArray();
+		char prev = '0';
+		for(int i=0; i<currentUrinal.length(); i++) {
+			if(i+1 < currentUrinal.length()) {
+				char next = ch[i+1];
+				if(prev == '0' && next == '0' && ch[i] == '0') {
+					freeUrinals++;
+					ch[i] = '1';
+				}
+			} else {
+				if(prev == '0' && ch[i] == '0') {
+					freeUrinals++;
+					ch[i] = '1';
+				}
+			}
+			prev = ch[i];
+		}
+		
+		return freeUrinals;
+	}
 }

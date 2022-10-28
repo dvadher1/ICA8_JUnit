@@ -73,4 +73,37 @@ class urinalsTest {
 		}
 		assertEquals(urinal.urinalsInput.size(), 0);
 	}
+	
+	@Test
+	void calculateFreeUrinals() {
+		urinals urinal = new urinals();
+		try {
+			urinal.readFromFile("files\\urinal.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> actual = new ArrayList<>();
+		for(String currentUrinalSetup : urinal.urinalsInput) {
+			if(urinal.isValidUrinals(currentUrinalSetup)) {
+				actual.add(urinal.calculateFreeUrinals(currentUrinalSetup));
+			} else {
+				actual.add(-1);
+			}
+		}
+		ArrayList<Integer> expected = new ArrayList<>();
+		expected.add(1);
+		expected.add(-1);
+		expected.add(0);
+		expected.add(3);
+		expected.add(2);
+		expected.add(1);
+		expected.add(-1);
+		expected.add(1);
+		expected.add(0);
+		expected.add(4);
+		expected.add(0);
+		expected.add(-1);
+		assertEquals(actual, expected);
+		
+	}
 }
