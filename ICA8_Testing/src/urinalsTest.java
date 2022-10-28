@@ -62,4 +62,15 @@ class urinalsTest {
 		expected.add("10001011001010110101");
 		assertEquals(actual, expected);
 	}
+	
+	@Test
+	void testReadFromEmptyFile() {
+		urinals urinal = new urinals();
+		try {
+			urinal.readFromFile("files\\urinalEmpty.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(urinal.urinalsInput.size(), 0);
+	}
 }
