@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +16,12 @@ public class urinals {
 	public ArrayList<String> urinalsInput = new ArrayList<String>();
 	
 	public static void main(String[] args) {
-
+		urinals u = new urinals();
+		try {
+			u.readFromFile("files\\urinalss.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -34,5 +44,25 @@ public class urinals {
 		
 		
 		return isValid;
+	}
+	
+	public void readFromFile(String fileName) throws Exception {
+		try {
+			System.setIn(new FileInputStream(fileName));
+		} catch (FileNotFoundException e) {
+			throw e;
+		}
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String line = null;
+		
+		try {
+			while((line = br.readLine()) != null) {
+				if(line.equals("EOF") || line.equals("-1")) break;
+				urinalsInput.add(line);
+			}
+		} catch (IOException e) {
+			throw e;
+		}
 	}
 }
