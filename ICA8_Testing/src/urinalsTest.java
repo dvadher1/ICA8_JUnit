@@ -1,8 +1,11 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -33,6 +36,7 @@ class urinalsTest {
 	
 	@Test
 	void testReadFromFileFileDoesNotExist() {
+		System.out.println("====== Dhaval Vadher == TEST THREE EXECUTED =======");
 		urinals urinal = new urinals();
 		
 		Throwable exception = assertThrows(FileNotFoundException.class, () -> urinal.readFromFile("files\\urinalsss.dat"));
@@ -41,6 +45,7 @@ class urinalsTest {
 	
 	@Test
 	void testReadFromFile() {
+		System.out.println("====== Dhaval Vadher == TEST FOUR EXECUTED =======");
 		urinals urinal = new urinals();
 		try {
 			urinal.readFromFile("files\\urinal.dat");
@@ -66,6 +71,7 @@ class urinalsTest {
 	
 	@Test
 	void testReadFromEmptyFile() {
+		System.out.println("====== Dhaval Vadher == TEST FIVE EXECUTED =======");
 		urinals urinal = new urinals();
 		try {
 			urinal.readFromFile("files\\urinalEmpty.dat");
@@ -77,6 +83,7 @@ class urinalsTest {
 	
 	@Test
 	void testCalculateFreeUrinals() {
+		System.out.println("====== Dhaval Vadher == TEST SIX EXECUTED =======");
 		urinals urinal = new urinals();
 		try {
 			urinal.readFromFile("files\\urinal.dat");
@@ -109,6 +116,7 @@ class urinalsTest {
 	
 	@Test
 	void testWriteToFileIOException() {
+		System.out.println("====== Dhaval Vadher == TEST SEVEN EXECUTED =======");
 		urinals urinal = new urinals();
 		try {
 			urinal.readFromFile("files\\urinal.dat");
@@ -125,5 +133,62 @@ class urinalsTest {
 		}
 		Throwable exception = assertThrows(IOException.class, () -> urinal.writeToFile(ans, "file\\rule.txt"));
 		assertEquals("The system cannot find the path specified", exception.getMessage());
+	}
+	
+	@Test
+	void testWriteToFile() {
+		System.out.println("====== Dhaval Vadher == TEST EIGHT EXECUTED =======");
+		urinals urinal = new urinals();
+		try {
+			urinal.readFromFile("files\\urinal.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> ans = new ArrayList<>();
+		for(String currentUrinalSetup : urinal.urinalsInput) {
+			if(urinal.isValidUrinals(currentUrinalSetup)) {
+				ans.add(urinal.calculateFreeUrinals(currentUrinalSetup));
+			} else {
+				ans.add(-1);
+			}
+		}
+		try {
+			urinal.writeToFile(ans, "files\\rule.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Integer> actual = new ArrayList<>();
+		try {
+			System.setIn(new FileInputStream("files\\\\rule.txt"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			String line = null;
+			try {
+				while((line = br.readLine()) != null) {
+//					if(line.equals("EOF") || line.equals("-1")) break;
+					actual.add(Integer.parseInt(line));
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> expected = new ArrayList<>();
+		expected.add(1);
+		expected.add(-1);
+		expected.add(0);
+		expected.add(3);
+		expected.add(2);
+		expected.add(1);
+		expected.add(-1);
+		expected.add(1);
+		expected.add(0);
+		expected.add(4);
+		expected.add(0);
+		expected.add(-1);
+		assertEquals(actual, expected);
 	}
 }
