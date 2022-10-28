@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * 
@@ -7,14 +8,17 @@
 
 public class urinals {
 	
-	public static void main(String[] args) {
-		
-	}
+	public ArrayList<String> urinalsInput = new ArrayList<String>();
 	
-	public boolean isValidUrinals(String currentUrinals) {
+	public static void main(String[] args) {
+
+	}
+
+	
+	public boolean isValidUrinals(String currentUrinal) {
 		boolean isValid = true;
-		if(currentUrinals.length() <= 0) return true;
-		char[] ch = currentUrinals.toCharArray();
+		if(currentUrinal.length() <= 0 || currentUrinal.length() > 20) return false;
+		char[] ch = currentUrinal.toCharArray();
 		for(char c : ch) {
 			if(c == '0' || c == '1') {
 				continue;
@@ -24,7 +28,7 @@ public class urinals {
 		}
 		char prev = ch[0];
 		for(int i=1; i<ch.length; i++) {
-			if(ch[i] == prev && prev==1) return false;
+			if(ch[i] == '1' && prev == '1') return false;
 			prev = ch[i];
 		}
 		
