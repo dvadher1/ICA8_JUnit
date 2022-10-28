@@ -191,4 +191,64 @@ class urinalsTest {
 		expected.add(-1);
 		assertEquals(actual, expected);
 	}
+	
+	@Test
+	void testWriteToDuplicateFiles() {
+		System.out.println("====== Dhaval Vadher == TEST NINE EXECUTED =======");
+		urinals urinal = new urinals();
+		try {
+			urinal.readFromFile("files\\urinal.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> ans = new ArrayList<>();
+		for(String currentUrinalSetup : urinal.urinalsInput) {
+			if(urinal.isValidUrinals(currentUrinalSetup)) {
+				ans.add(urinal.calculateFreeUrinals(currentUrinalSetup));
+			} else {
+				ans.add(-1);
+			}
+		}
+		try {
+			urinal.writeToFile(ans, "files\\rule.txt");
+			urinal.writeToFile(ans, "files\\rule.txt");
+			urinal.writeToFile(ans, "files\\rule.txt");
+			urinal.writeToFile(ans, "files\\rule.txt");
+			urinal.writeToFile(ans, "files\\rule.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Integer> actual = new ArrayList<>();
+		try {
+			System.setIn(new FileInputStream("files\\rule1.txt"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			String line = null;
+			try {
+				while((line = br.readLine()) != null) {
+					actual.add(Integer.parseInt(line));
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> expected = new ArrayList<>();
+		expected.add(1);
+		expected.add(-1);
+		expected.add(0);
+		expected.add(3);
+		expected.add(2);
+		expected.add(1);
+		expected.add(-1);
+		expected.add(1);
+		expected.add(0);
+		expected.add(4);
+		expected.add(0);
+		expected.add(-1);
+		assertEquals(actual, expected);
+	}
 }
