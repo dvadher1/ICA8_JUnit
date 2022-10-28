@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -14,14 +16,29 @@ import java.util.ArrayList;
 public class urinals {
 	
 	public ArrayList<String> urinalsInput = new ArrayList<String>();
+	public int countOfOutputFiles = 0;
 	
 	public static void main(String[] args) {
-		urinals u = new urinals();
-		try {
-			u.readFromFile("files\\urinalss.dat");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		urinals urinal = new urinals();
+//		try {
+//			urinal.readFromFile("files\\urinal.dat");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		ArrayList<Integer> ans = new ArrayList<>();
+//		for(String currentUrinalSetup : urinal.urinalsInput) {
+//			if(urinal.isValidUrinals(currentUrinalSetup)) {
+//				ans.add(urinal.calculateFreeUrinals(currentUrinalSetup));
+//			} else {
+//				ans.add(-1);
+//			}
+//		}
+//		try {
+//			urinal.writeToFile(ans, "file\\t.txt");
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			System.out.println(e.getMessage());
+//		}
 	}
 
 	
@@ -62,6 +79,31 @@ public class urinals {
 				urinalsInput.add(line);
 			}
 		} catch (IOException e) {
+			throw e;
+		}
+	}
+	
+	public void writeToFile(ArrayList<Integer> ans, String fileName) throws Exception {
+		try {
+			File file = new File(fileName);
+			if(file.createNewFile()) {
+				System.out.println("File created");
+				FileWriter fileWriter = new FileWriter(fileName);
+				for(int a : ans) {
+					fileWriter.write(a + "\n");
+				}
+				fileWriter.close();
+			} else {
+				System.out.println("File already exists");
+				countOfOutputFiles++;
+				fileName = fileName.substring(0, 10) + countOfOutputFiles + fileName.substring(10);
+				FileWriter fileWriter = new FileWriter(fileName);
+				for(int a : ans) {
+					fileWriter.write(a + "\n");
+				}
+				fileWriter.close();
+			}			
+		} catch(IOException e) {
 			throw e;
 		}
 	}

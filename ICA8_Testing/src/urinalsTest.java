@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ class urinalsTest {
 	}
 	
 	@Test
-	void calculateFreeUrinals() {
+	void testCalculateFreeUrinals() {
 		urinals urinal = new urinals();
 		try {
 			urinal.readFromFile("files\\urinal.dat");
@@ -103,7 +104,26 @@ class urinalsTest {
 		expected.add(4);
 		expected.add(0);
 		expected.add(-1);
-		assertEquals(actual, expected);
-		
+		assertEquals(actual, expected);	
+	}
+	
+	@Test
+	void testWriteToFileIOException() {
+		urinals urinal = new urinals();
+		try {
+			urinal.readFromFile("files\\urinal.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> ans = new ArrayList<>();
+		for(String currentUrinalSetup : urinal.urinalsInput) {
+			if(urinal.isValidUrinals(currentUrinalSetup)) {
+				ans.add(urinal.calculateFreeUrinals(currentUrinalSetup));
+			} else {
+				ans.add(-1);
+			}
+		}
+		Throwable exception = assertThrows(IOException.class, () -> urinal.writeToFile(ans, "file\\rule.txt"));
+		assertEquals("The system cannot find the path specified", exception.getMessage());
 	}
 }
