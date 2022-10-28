@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
@@ -35,5 +36,30 @@ class urinalsTest {
 		
 		Throwable exception = assertThrows(FileNotFoundException.class, () -> urinal.readFromFile("files\\urinalsss.dat"));
 		assertEquals("files\\urinalsss.dat (The system cannot find the file specified)", exception.getMessage());
+	}
+	
+	@Test
+	void testReadFromFile() {
+		urinals urinal = new urinals();
+		try {
+			urinal.readFromFile("files\\urinal.dat");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<String> actual = urinal.urinalsInput;	
+		ArrayList<String> expected = new ArrayList<>();
+		expected.add("10001");
+		expected.add("110");
+		expected.add("1001");
+		expected.add("00000");
+		expected.add("0000");
+		expected.add("01000");
+		expected.add("");
+		expected.add("0");
+		expected.add("1");
+		expected.add("10010001000010000010");
+		expected.add("10010010010010010010");
+		expected.add("10001011001010110101");
+		assertEquals(actual, expected);
 	}
 }
